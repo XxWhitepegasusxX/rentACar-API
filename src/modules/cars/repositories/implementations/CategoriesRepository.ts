@@ -12,24 +12,25 @@ class CategoriesRepository implements ICategoriesRepository{
 
 
     async create({description, name}: ICreateCategoryDTO): Promise<void>{
-        
-        const category = this.prisma.category.create({
-            data: {
-                name,
-                description
-            }
-        })
+        try{
+            await this.prisma.category.create({
+                data: {
+                    name,
+                    description
+                }
+            })
+        }catch(e){
+            console.log(e)
+        }
     
     }
     async list(): Promise<Category[]> {
-        const categories = await this.prisma.category.findMany({
-            select: {
-                id: true,
-                name: true,
-                description: true
-            }
-        });
-        return categories
+        try{
+            const categories = await this.prisma.category.findMany();
+            return categories
+        }catch(e){
+            console.log(e)
+        }
     }
     
     async findByName(name: string): Promise<Category> {
