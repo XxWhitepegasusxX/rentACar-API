@@ -1,4 +1,6 @@
 import { PrismaClient, Users } from "@prisma/client";
+
+import { AppError } from './../../../../errors/AppError';
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUsersRepository } from "../IUsersRepository";
 
@@ -21,7 +23,18 @@ class UsersRepository implements IUsersRepository{
                 }
             })
         }catch(e){
-            console.log(e)
+            throw new AppError(e)
+        }
+    }
+
+    async updateAvatar(id: string, data: string): Promise<void> {
+        try{
+            await this.prisma.users.update({
+                where: {id: id},
+                data: {avatar: data}
+            })
+        }catch(e){
+            throw new AppError(e)
         }
     }
 

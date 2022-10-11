@@ -1,4 +1,6 @@
 import { PrismaClient, Specification } from "@prisma/client";
+
+import { AppError } from './../../../../errors/AppError';
 import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecificationsRepository";
 
 class SpecificationRepository implements ISpecificationsRepository{
@@ -17,7 +19,7 @@ class SpecificationRepository implements ISpecificationsRepository{
                 }
             })
         }catch(e){
-            console.log(e)
+            throw new AppError(e)
         }
     }
     async list(): Promise<Specification[]>{
@@ -25,7 +27,7 @@ class SpecificationRepository implements ISpecificationsRepository{
             const specifications = await this.prisma.specification.findMany()
             return specifications
         }catch(e){
-            console.log(e)
+            throw new AppError(e)
         }
     }
     async findByName(name: string): Promise<Specification> {

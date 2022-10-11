@@ -1,3 +1,4 @@
+import { AppError } from './../../../../errors/AppError';
 import { ICategoriesRepository, ICreateCategoryDTO } from "../ICategoriesRepository";
 import { PrismaClient, Category } from "@prisma/client";
 
@@ -20,7 +21,7 @@ class CategoriesRepository implements ICategoriesRepository{
                 }
             })
         }catch(e){
-            console.log(e)
+            throw new AppError(e)
         }
     
     }
@@ -29,7 +30,7 @@ class CategoriesRepository implements ICategoriesRepository{
             const categories = await this.prisma.category.findMany();
             return categories
         }catch(e){
-            console.log(e)
+            throw new AppError(e)
         }
     }
     
