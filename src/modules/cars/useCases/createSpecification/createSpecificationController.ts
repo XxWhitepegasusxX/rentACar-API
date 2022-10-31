@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { CreateSpecificationUseCase } from "./createSpecificationUseCase";
 import { container } from 'tsyringe'
+
+import { CreateSpecificationUseCase } from "./createSpecificationUseCase";
 
 
 class CreateSpecificationController{
