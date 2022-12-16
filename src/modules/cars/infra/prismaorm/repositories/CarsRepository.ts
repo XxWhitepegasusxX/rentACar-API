@@ -13,6 +13,13 @@ class CarsRepository implements ICarsRepository{
         this.prisma = prisma
     }
 
+    async updateAvailable(id: string, available: boolean): Promise<void> {
+        await this.prisma.car.update({
+            where: {id},
+            data: {available: available}
+        })
+    }
+
     async addSpecification(car_id: string, specification_id: string): Promise<Car> {
         try{
             await this.prisma.specification_cars.create({

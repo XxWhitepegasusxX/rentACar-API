@@ -7,5 +7,7 @@ interface ICarsRepository{
     findAvailable(brand?: string, category_id?: string, name?: string): Promise<Car[]>;
     findById(id: string): Promise<Car>;
     addSpecification(car_id: string, specification_id: string): Promise<Car>;
+    updateAvailable(id: string, available: boolean): Promise<void>;
 }
+
 export { ICarsRepository }

@@ -29,15 +29,26 @@ model Specification {
 }
 
 model Users {
-  id             String    @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   password       String
-  email          String    @unique
+  email          String       @unique
   driver_license String
-  isAdmin        Boolean   @default(false)
-  created_at     DateTime  @default(now())
+  isAdmin        Boolean      @default(false)
+  created_at     DateTime     @default(now())
   avatar         String?
   Rentals        Rentals[]
+  User_token     User_token[]
+}
+
+model User_token {
+  id            String   @id @default(uuid())
+  refresh_token String
+  user_id       String
+  expires_date  DateTime
+  created_at    DateTime @default(now())
+
+  user Users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model Car {
@@ -55,7 +66,7 @@ model Car {
 
   specifications_id Specification_cars[]
 
-  category Category  @relation(fields: [category_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  category Category  @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
   Rentals  Rentals[]
 
   @@map("Cars")
@@ -63,10 +74,10 @@ model Car {
 
 model Specification_cars {
   car_id String
-  car    Car    @relation(fields: [car_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  car    Car    @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   specification_id String
-  specification    Specification @relation(fields: [specification_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  specification    Specification @relation(fields: [specification_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
 
   created_at DateTime @default(now())
 
@@ -79,20 +90,20 @@ model Car_images {
   image_name String
   created_at DateTime @default(now())
 
-  car Car @relation(fields: [car_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  car Car @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
 }
 
 model Rentals {
-  id                   String   @id @default(uuid())
+  id                   String    @id @default(uuid())
   car_id               String
   user_id              String
-  start_date           DateTime @default(now())
-  end_date             DateTime
+  start_date           DateTime  @default(now())
+  end_date             DateTime?
   expected_return_date DateTime
-  total                Float
-  created_at           DateTime @default(now())
-  updated_at           DateTime
+  total                Float?
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @default(now())
 
-  car  Car   @relation(fields: [car_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  user Users @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  car  Car   @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  user Users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: Cascade)
 }

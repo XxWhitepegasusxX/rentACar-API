@@ -6,7 +6,12 @@ import { v4 } from 'uuid';
 
 class CarsRepositoryInMemory implements ICarsRepository{
     
-    addSpecification(car_id: string, specification_id: string): Promise<Car> {
+    async updateAvailable(id: string, available: boolean): Promise<void> {
+        throw new Error('Method not implemented.');
+        
+    }
+    
+    async addSpecification(car_id: string, specification_id: string): Promise<Car> {
         throw new Error('Method not implemented.');
     }
     

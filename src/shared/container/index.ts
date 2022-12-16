@@ -1,5 +1,7 @@
 import { container } from "tsyringe";
 
+import "@shared/container/providers"
+
 import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository'
 import { CategoriesRepository } from '@modules/cars/infra/prismaorm/repositories/CategoriesRepository'
 
@@ -14,6 +16,12 @@ import { CarsRepository } from "@modules/cars/infra/prismaorm/repositories/CarsR
 
 import { ICarsImagesRepository } from "@modules/cars/repositories/ICarsImagesRepository";
 import { CarsImagesRepository } from '@modules/cars/infra/prismaorm/repositories/CarsImagesRepository';
+
+import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
+import { RentalsRepository } from "@modules/rentals/infra/prismaORM/repositories/RentalsRepository";
+
+import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";
+import { UsersTokensRepository } from "@modules/accounts/infra/prismaorm/repositories/UsersTokensRepository";
 
 // ICategoryRepository
 container.registerSingleton<ICategoriesRepository>(
@@ -43,4 +51,16 @@ container.registerSingleton<ICarsRepository>(
 container.registerSingleton<ICarsImagesRepository>(
     "CarsImagesRepository",
     CarsImagesRepository
+)
+
+//RentalsRepository
+container.registerSingleton<IRentalsRepository>(
+    "RentalsRepository",
+    RentalsRepository
+)
+
+// IUsersTokensRepository
+container.registerSingleton<IUsersTokensRepository>(
+    "UsersTokensRepository",
+    UsersTokensRepository
 )
