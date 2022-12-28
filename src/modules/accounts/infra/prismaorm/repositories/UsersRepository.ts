@@ -1,5 +1,6 @@
-import { prisma } from '@shared/services/prismaClient';
 import { PrismaClient, Users } from "@prisma/client";
+
+import { prisma } from '@shared/services/prismaClient';
 import { AppError } from '@shared/errors/AppError';
 import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
@@ -10,6 +11,23 @@ class UsersRepository implements IUsersRepository{
 
     constructor(){
         this.prisma = prisma
+    }
+
+    async updatePassword(id: string, newPassword: string): Promise<void> {
+        
+        try{
+            await prisma.users.update({
+                data: {
+                    password: newPassword
+                },
+                where: {
+                    id
+                }
+            })
+
+        }catch(e){
+            throw new AppError(e)
+        }
     }
 
     async create({name, email, driver_license, password}: ICreateUserDTO): Promise<void>{

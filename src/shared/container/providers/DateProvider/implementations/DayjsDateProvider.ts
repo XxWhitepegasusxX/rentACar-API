@@ -2,6 +2,14 @@ import dayjs from "dayjs";
 import { IDateProvider } from "../IDateProvider";
 
 class DayjsDateProvider implements IDateProvider{
+
+    compareIfBefore(start_date: Date, end_date: Date): boolean {
+        return dayjs(start_date).isBefore(end_date)
+    }
+    
+    addHours(hours: number): Date {
+        return dayjs().add(hours, "hours").toDate()
+    }
     
     addDays(days: number): Date {
         return dayjs().add(days, "days").toDate();

@@ -1,8 +1,9 @@
 import { verify } from 'jsonwebtoken'
 import { NextFunction, Request, Response } from "express";
 
-import { UsersRepository } from "@modules/accounts/infra/prismaorm/repositories/UsersRepository";
+import { UsersTokensRepository } from '@modules/accounts/infra/prismaorm/repositories/UsersTokensRepository';
 import { AppError } from "@shared/errors/AppError";
+import auth from '@config/auth';
 
 interface IPayload{
     sub: string;
@@ -19,15 +20,7 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
     const [, token] = authHeader.split(" ")
     try{
 
-        const { sub: user_id } = verify(token, "a7e071b3de48cec1dd24de6cbe6c7bf1") as IPayload
-
-        const usersRepository = new UsersRepository()
-
-        const user = await usersRepository.findById(user_id)
-
-        if(!user){
-            throw new AppError("User not found", 401)
-        }
+        const { sub: user_id } = verify(token, auth.secret_token) as IPayload;
         
         req.user = {
             id: user_id

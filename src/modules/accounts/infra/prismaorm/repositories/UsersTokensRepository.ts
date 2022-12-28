@@ -11,6 +11,15 @@ class UsersTokensRepository implements IUsersTokensRepository{
     constructor(){
         this.prisma = prisma
     }
+
+    async findByRefreshToken(token: string): Promise<User_token> {
+        return await this.prisma.user_token.findFirst({
+            where: {
+                refresh_token: token
+            }
+        })
+    }
+
     async deleteById(id: string): Promise<void> {
         await this.prisma.user_token.delete({
             where: {
